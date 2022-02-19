@@ -40,9 +40,9 @@ toggle_mute() {
     status=$(pamixer --get-mute)
 
 	if [[ "$status" == "true" ]]; then
-		pamixer --unmute && dunstify -u low --replace=69 -i '/usr/share/icons/Papirus-Dark/symbolic/status/audio-volume-muted-symbolic.svg' "Mute"
+		pamixer --unmute && get_icon && dunstify -u low --replace=69 -i "$icon" "Unmute"
 	else
-		pamixer --mute && get_icon && dunstify -u low --replace=69 -i "$icon" "Unmute"
+		pamixer --mute && dunstify -u low --replace=69 -i '/usr/share/icons/Papirus-Dark/symbolic/status/audio-volume-muted-symbolic.svg' "Mute"
 	fi
 }
 
