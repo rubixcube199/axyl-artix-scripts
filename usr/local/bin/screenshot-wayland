@@ -1,0 +1,21 @@
+#!/bin/sh
+
+op1="Entire Screen"
+op2="Selected Area"
+
+ops="${op1}\n${op2}"
+
+selected=$(echo -e $ops | bemenu -i -l 10 -p "Screenshot:" \
+    --fn 'Iosevka Nerd Font 16px' \
+    --nb '#16161e[FF]' --nf '#abb2bf[FF]' \
+    --tb '#7aa2f7[FF]' --tf '#16161e[FF]' \
+    --fb '#16161e[FF]' --ff '#abb2bf[FF]' \
+    --hb '#7aa2f7[FF]' --hf '#16161e[FF]' \
+    --sb '#16161e[FF]' --sf '#7aa2f7[FF]' \
+)
+
+if [[ $selected == $op1 ]]; then
+    IMG=/tmp/$(date | sed "s/\s/-/g" | sed "s/--/-/g").png && grim $IMG && cat $IMG | wl-copy && rm -rf $IMG && dunstify -u low --replace=699 -i /usr/share/icons/Papirus-Dark/symbolic/devices/camera-photo-symbolic.svg "Screenshot Clipped" 
+elif [[ $selected == $op2 ]]; then
+    grim -g "$(slurp)" -| wl-copy && dunstify -u low --replace=699 -i /usr/share/icons/Papirus-Dark/symbolic/devices/camera-photo-symbolic.svg "Screenshot Clipped" 
+fi

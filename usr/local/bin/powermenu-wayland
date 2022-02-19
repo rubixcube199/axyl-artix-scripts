@@ -1,0 +1,24 @@
+#!/bin/sh
+
+op1="Suspend"
+op2="Poweroff"
+op3="Reboot"
+
+ops="${op1}\n${op2}\n${op3}"
+
+selected=$(echo -e $ops | bemenu -i -l 10 -p "Powermenu:" \
+    --fn 'Iosevka Nerd Font 16px' \
+    --nb '#16161e[FF]' --nf '#abb2bf[FF]' \
+    --tb '#7aa2f7[FF]' --tf '#16161e[FF]' \
+    --fb '#16161e[FF]' --ff '#abb2bf[FF]' \
+    --hb '#7aa2f7[FF]' --hf '#16161e[FF]' \
+    --sb '#16161e[FF]' --sf '#7aa2f7[FF]' \
+)
+
+if [[ $selected == $op1 ]]; then
+    loginctl suspend && swaylock
+elif [[ $selected == $op2 ]]; then
+    loginctl poweroff
+elif [[ $selected == $op3 ]]; then
+    loginctl reboot
+fi
