@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# This is the powermenu tool for the wayland edition of Axyl Artix iso.
+
 op1="Suspend"
 op2="Poweroff"
 op3="Reboot"
