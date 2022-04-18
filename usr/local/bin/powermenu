@@ -1,17 +1,26 @@
-#!/bin/env bash
+#!/bin/sh
 
-source colors
+# This is the powermenu tool for the wayland edition of Axyl Artix iso.
 
-FONT="Source Code Pro Medium:size=12"
+op1="Suspend"
+op2="Poweroff"
+op3="Reboot"
 
-[[ -z "$DISPLAY" ]] && exit 1
-choice=$(echo -e "0: Sleep & Lock\n1: Sleep\n2: Shutdown\n3: Reboot\n4: Logout" | dmenu -c -i -l 10 -nb "$bg" -nf "$fg" -sb "$altbg" -sf "$fg" -fn "$FONT" -p "Powermenu:" | cut -d ':' -f 1)
-[[ -z "$choice" ]] && exit 1
-case "$choice" in
-  0) systemctl suspend && lock  ;;
-  1) systemctl suspend          ;;
-  2) poweroff			;;
-  3) reboot 			;;
-  4) pkill -KILL -u "$USER" &	;;
-esac
+ops="${op1}\n${op2}\n${op3}"
 
+selected=$(echo -e $ops | bemenu -i -l 10 -p "Powermenu:" \
+    --fn 'Iosevka Nerd Font 16px' \
+    --nb '#16161e[FF]' --nf '#abb2bf[FF]' \
+    --tb '#7aa2f7[FF]' --tf '#16161e[FF]' \
+    --fb '#16161e[FF]' --ff '#abb2bf[FF]' \
+    --hb '#7aa2f7[FF]' --hf '#16161e[FF]' \
+    --sb '#16161e[FF]' --sf '#7aa2f7[FF]' \
+)
+
+if [[ $selected == $op1 ]]; then
+    loginctl suspend && swaylock
+elif [[ $selected == $op2 ]]; then
+    loginctl poweroff
+elif [[ $selected == $op3 ]]; then
+    loginctl reboot
+fi
